@@ -23,6 +23,15 @@
 #ifndef VKM_ENCODER_H
 #define VKM_ENCODER_H
 
+#include "core.h"
 
+typedef struct 
+{
+
+} vkm_encoder_params;
+
+typedef vkm_handle vkm_encoder;
+
+void vkm_encoder_destroy(vkm_encoder encoder);
 
 #endif

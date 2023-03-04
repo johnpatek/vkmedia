@@ -56,6 +56,10 @@ int vkm_swapchain_create(
 void vkm_swapchain_destroy(
     vkm_swapchain swapchain);
 
+int vkm_swapchain_get_count(
+    vkm_swapchain swapchain,
+    uint32_t *count);
+
 int vkm_swapchain_get_images(
     vkm_swapchain swapchain, 
     VkImage **images);

@@ -37,10 +37,16 @@ typedef void *vkm_handle;
 
 int vkm_initialize();
 
-void vkm_quit();
+void vkm_shutdown();
 
 int vkm_enumerate_instance_extentions(const char ** extensions, uint32_t *extension_count);
 
 int vkm_enumerate_device_extentions(const char ** extensions, uint32_t *extension_count);
+
+int vkm_get_devices(
+    VkInstance vulkan_instance,
+    int index, 
+    VkPhysicalDevice *vulkan_physical_device,
+    CUdevice *cuda_device);
 
 #endif

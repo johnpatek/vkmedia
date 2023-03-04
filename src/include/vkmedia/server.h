@@ -23,12 +23,11 @@
 #ifndef VKM_SERVER_H
 #define VKM_SERVER_H
 
-#include "core.h"
 #include "stream.h"
 
 typedef struct
 {
-    int rtsp_port;    
+    int rtsp_port;   
 } vkm_server_parameters;
 
 typedef vkm_handle vkm_server;
@@ -41,7 +40,7 @@ int vkm_server_start(vkm_server server);
 
 int vkm_server_stop(vkm_server server);
 
-int vkm_server_add_stream(vkm_server server, const char * path);
+int vkm_server_add_stream(vkm_server server, const char * path, vkm_stream stream);
 
 int vkm_server_remove_stream(vkm_server server, const char * path);
 

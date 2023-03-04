@@ -67,5 +67,12 @@ void vkm_heap_clean(vkm_heap *heap);
         goto error;                       \
     }
 
+typedef struct
+{
+
+} vkm_encoder_internal;
+
+VKM_ENCODER(HANDLE) ((vkm_encoder_internal*)HANDLE)
+
 #endif
 

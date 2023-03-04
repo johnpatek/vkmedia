@@ -22,7 +22,47 @@
 
 #ifndef VKM_STREAM_H
 #define VKM_STREAM_H
+#include "swapchain.h"
 
+typedef enum
+{
+    VKM_FORMAT,
+} vkm_stream_format;
+
+typedef struct
+{
+    VkPhysicalDevice vulkan_physical_device;
+    CUdevice cuda_device;
+    vkm_stream_format format;
+    int width;
+    int height;
+    int framerate;
+} vkm_stream_parameters;
+
+/**
+ * @brief vkm_stream simplifies interaction between vkm_swapchain and vkm_encoder
+ */
+typedef vkm_handle vkm_stream;
+
+int vkm_stream_create(
+    const vkm_stream_parameters *stream_parameters,
+    vkm_stream *stream);
+
+void vkm_stream_destroy(
+    vkm_stream stream);
+
+int vkm_stream_get_swapchain(
+    vkm_stream stream,
+    vkm_swapchain *swapchain);
+
+int vkm_stream_initialize(
+    vkm_stream stream);
+
+int vkm_stream_start(
+    vkm_stream stream);
+
+int vkm_stream_stop(
+    vkm_stream stream);
 
 
 #endif
