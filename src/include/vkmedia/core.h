@@ -23,7 +23,6 @@
 #ifndef VKM_CORE_H
 #define VKM_CORE_H
 
-#include <cuda.h>
 #include <vulkan/vulkan.h>
 
 #include <stdlib.h>
@@ -39,14 +38,22 @@ int vkm_initialize();
 
 void vkm_shutdown();
 
-int vkm_enumerate_instance_extentions(const char ** extensions, uint32_t *extension_count);
+int vkm_enumerate_instance_extentions(
+    const char ** extensions, 
+    uint32_t *extension_count);
 
-int vkm_enumerate_device_extentions(const char ** extensions, uint32_t *extension_count);
+int vkm_enumerate_device_extentions(
+    const char ** extensions, 
+    uint32_t *extension_count);
 
-int vkm_get_devices(
+int vkm_get_physical_device(
     VkInstance vulkan_instance,
     int index, 
-    VkPhysicalDevice *vulkan_physical_device,
-    CUdevice *cuda_device);
+    VkPhysicalDevice *vulkan_physical_device);
+
+int vkm_find_queue_family(
+    VkPhysicalDevice physical_device, 
+    VkQueueFlagBits required_bits, 
+    uint32_t *index);
 
 #endif

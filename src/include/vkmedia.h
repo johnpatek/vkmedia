@@ -23,6 +23,7 @@
 #ifndef VKMEDIA_H
 #define VKMEDIA_H
 
+#include <vkmedia/application.h>
 #include <vkmedia/core.h>
 #include <vkmedia/encoder.h>
 #include <vkmedia/server.h>

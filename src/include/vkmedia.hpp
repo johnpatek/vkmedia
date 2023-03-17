@@ -73,35 +73,12 @@ namespace vkm
         std::unique_ptr<void, Deleter> _data;
     };
 
-    struct encoder_parameters
-    {
-        std::optional<int> width;
-        std::optional<int> height;
-    };
 
-    class encoder : public handle<vkm_encoder, decltype(&vkm_encoder_destroy)>
+    class server : public handle<vkm_server, decltype(&vkm_server_destroy)>
     {
     public:
-        encoder(const encoder_parameters &parameters);
     };
 
-    struct swapchain_parameters
-    {
-        VkPhysicalDevice vulkan_physical_device;
-        VkDevice vulkan_logical_device;
-        CUcontext cuda_context;
-        VkFormat format;
-        VkExtent2D size;
-        uint32_t count;
-    };
-
-    class swapchain : public handle<vkm_swapchain, decltype(&vkm_swapchain_destroy)>
-    {
-    public:
-        swapchain(const swapchain_parameters &parameters);
-        
-        
-    };
 
 }
 

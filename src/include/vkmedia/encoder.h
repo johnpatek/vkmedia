@@ -27,11 +27,18 @@
 
 typedef struct 
 {
-
-} vkm_encoder_params;
+    
+} vkm_encoder_parameters;
 
 typedef vkm_handle vkm_encoder;
 
-void vkm_encoder_destroy(vkm_encoder encoder);
+int vkm_encoder_create(
+    const vkm_encoder_parameters *encoder_parameters, 
+    vkm_encoder *encoder);
+
+void vkm_encoder_destroy(
+    vkm_encoder encoder);
+
+
 
 #endif
