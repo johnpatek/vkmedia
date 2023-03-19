@@ -23,7 +23,7 @@
 #ifndef VKM_SERVER_H
 #define VKM_SERVER_H
 
-#include "stream.h"
+#include "application.h"
 
 typedef struct _vkm_server_parameters
 {

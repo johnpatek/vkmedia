@@ -28,7 +28,13 @@
 #include <gst/app/app.h>
 #include <gst/rtsp-server/rtsp-server.h>
 
-typedef struct
+typedef struct _vkm_context
+{
+    int data;
+} vkm_context;
+
+
+typedef struct _vkm_heap
 {
     void **blocks;
     size_t block_count;
@@ -41,16 +47,15 @@ void vkm_heap_clean(vkm_heap *heap);
 #define VKM_MALLOC(SIZE) vkm_heap_malloc(&heap, SIZE)
 #define VKM_CALLOC(COUNT, SIZE) vkm_heap_calloc(&heap, COUNT, SIZE)
 
-#define VKM_BEGIN_FUNCTION(FUNC) \
-    int FUNC                     \
-    {                            \
-        vkm_heap heap = {        \
-            .blocks = NULL,      \
-            .block_count = 0,    \
-        };                       \
-        int vkm_result;          \
-        VkResult vk_result;      \
-        vkm_result = VKM_SUCCESS;
+#define VKM_BEGIN_FUNCTION    \
+    vkm_heap heap = {         \
+        .blocks = NULL,       \
+        .block_count = 0,     \
+    };                        \
+    int vkm_result;           \
+    VkResult vk_result;       \
+    vkm_result = VKM_SUCCESS; \
+    vk_result = VK_SUCCESS;
 
 #define VKM_END_FUNCTION      \
     goto done;                \
@@ -58,8 +63,7 @@ void vkm_heap_clean(vkm_heap *heap);
     vkm_result = VKM_FAILURE; \
     done:                     \
     vkm_heap_clean(&heap);    \
-    return vkm_result;        \
-    }
+    return vkm_result;
 
 #define VKM_ASSERT(COND, MESSAGE) \
     if (!(COND))                  \
@@ -74,8 +78,8 @@ void vkm_heap_clean(vkm_heap *heap);
         goto error;               \
     }
 
-#define VK_CHECK_RESULT(FUNC, ARGS...)    \
-    vk_result = FUNC(ARGS);               \
+#define VK_CHECK_RESULT(FUNC)             \
+    vk_result = FUNC;                     \
     if (vk_result != VK_SUCCESS)          \
     {                                     \
         fprintf(                          \
@@ -89,11 +93,9 @@ void vkm_heap_clean(vkm_heap *heap);
         goto error;                       \
     }
 
-
-
 typedef struct
 {
-    
+
 } vkm_encoder_s;
 
 #define VKM_ENCODER(HANDLE) ((vkm_encoder_s *)HANDLE)

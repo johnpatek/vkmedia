@@ -23,6 +23,7 @@
 #ifndef VKM_CORE_H
 #define VKM_CORE_H
 
+#define VK_ENABLE_BETA_EXTENSIONS
 #include <vulkan/vulkan.h>
 
 #include <stdlib.h>

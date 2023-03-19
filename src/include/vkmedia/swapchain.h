@@ -29,7 +29,6 @@ typedef struct
 {
     VkPhysicalDevice vulkan_physical_device;
     VkDevice vulkan_logical_device;
-    CUcontext cuda_context;
     VkFormat format;
     VkExtent2D size;
     uint32_t count;
@@ -64,20 +63,11 @@ int vkm_swapchain_get_images(
     vkm_swapchain swapchain, 
     VkImage **images);
 
-int vkm_swapchain_get_frames(
-    vkm_swapchain swapchain, 
-    CUarray **frames);
 
 int vkm_swapchain_acquire_image(
     vkm_swapchain swapchain, 
     uint32_t *image_index, 
     VkSemaphore *wait_semaphore, 
     VkSemaphore *signal_semaphore);
-
-int vkm_swapchain_acquire_frame(
-    vkm_swapchain swapchain, 
-    uint32_t *frame_index, 
-    CUexternalSemaphore *wait_semaphore, 
-    CUexternalSemaphore *signal_semaphore);
 
 #endif

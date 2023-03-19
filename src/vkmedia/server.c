@@ -20,83 +20,99 @@ static void vkm_server_configure(
     GstRTSPMedia *media,
     vkm_application application);
 
-VKM_BEGIN_FUNCTION(
-    vkm_server_create(
-        const vkm_server_parameters *server_parameters,
-        vkm_server *server))
+int vkm_server_create(
+    const vkm_server_parameters *server_parameters,
+    vkm_server *server)
+{
+    VKM_BEGIN_FUNCTION
 
-VKM_ASSERT(server != NULL, "server address cannot be NULL")
+    VKM_ASSERT(server != NULL, "server address cannot be NULL")
 
-*server = calloc(1, sizeof(vkm_server_s));
-VKM_ASSERT(*server != NULL, "failed to allocate server")
+    *server = calloc(1, sizeof(vkm_server_s));
+    VKM_ASSERT(*server != NULL, "failed to allocate server")
 
-VKM_SERVER(*server)->gst_rtsp_server = gst_rtsp_server_new();
-VKM_ASSERT(
-    VKM_SERVER(*server)->gst_rtsp_server != NULL,
-    "failed to allocate RTSP server")
+    VKM_SERVER(*server)->gst_rtsp_server = gst_rtsp_server_new();
+    VKM_ASSERT(
+        VKM_SERVER(*server)->gst_rtsp_server != NULL,
+        "failed to allocate RTSP server")
 
-VKM_SERVER(*server)->active = FALSE;
+    VKM_SERVER(*server)->active = FALSE;
 
-VKM_END_FUNCTION
+    VKM_END_FUNCTION
+}
 
 void vkm_server_destroy(vkm_server server)
 {
 }
 
-VKM_BEGIN_FUNCTION(vkm_server_start(vkm_server server))
+int vkm_server_start(vkm_server server)
+{
+    VKM_BEGIN_FUNCTION
 
-VKM_SERVER(server)->gst_server_source = gst_rtsp_server_attach(VKM_SERVER(server)->gst_rtsp_server, NULL);
-VKM_ASSERT(
-    VKM_SERVER(server)->gst_server_source > 0,
-    "failed to attach RTSP server")
+    VKM_SERVER(server)->gst_server_source = gst_rtsp_server_attach(VKM_SERVER(server)->gst_rtsp_server, NULL);
 
-VKM_END_FUNCTION
+    VKM_ASSERT(
+        VKM_SERVER(server)->gst_server_source > 0,
+        "failed to attach RTSP server")
 
-VKM_BEGIN_FUNCTION(vkm_server_stop(vkm_server server))
+    VKM_END_FUNCTION
+}
 
-VKM_ASSERT(
-    g_source_remove(
-        VKM_SERVER(server)->gst_server_source) == TRUE,
-    "failed to detach RTSP server")
+int vkm_server_stop(vkm_server server)
+{
+    VKM_BEGIN_FUNCTION
 
-VKM_SERVER(server)->active = FALSE;
+    VKM_ASSERT(
+        g_source_remove(
+            VKM_SERVER(server)->gst_server_source) == TRUE,
+        "failed to detach RTSP server")
 
-VKM_END_FUNCTION
+    VKM_SERVER(server)->active = FALSE;
 
-VKM_BEGIN_FUNCTION(vkm_server_mount(vkm_server server, const char *path, vkm_application application))
-GstRTSPMediaFactory *factory;
-const char *application_id;
-gchar *factory_launch_string;
-GstRTSPMountPoints *mount_points;
+    VKM_END_FUNCTION
+}
 
-factory = gst_rtsp_media_factory_new();
-VKM_ASSERT(factory != NULL, "failed to allocate media factory")
+int vkm_server_mount(vkm_server server, const char *path, vkm_application application)
+{
+    VKM_BEGIN_FUNCTION
 
-VKM_ASSERT(
-    vkm_application_get_id(
-        application,
-        &application_id) == VKM_SUCCESS,
-    "failed to get application ID")
+    GstRTSPMediaFactory *factory;
+    const char *application_id;
+    gchar *factory_launch_string;
+    GstRTSPMountPoints *mount_points;
 
-factory_launch_string = g_strdup_printf(
-    "( appsrc name=%s ! rtph264pay name=pay0 pt=96 )",
-    application_id);
+    factory = gst_rtsp_media_factory_new();
+    VKM_ASSERT(factory != NULL, "failed to allocate media factory")
 
-gst_rtsp_media_factory_set_launch(factory, factory_launch_string);
-g_object_unref(factory_launch_string);
+    VKM_ASSERT(
+        vkm_application_get_id(
+            application,
+            &application_id) == VKM_SUCCESS,
+        "failed to get application ID")
 
-mount_points = gst_rtsp_server_get_mount_points(
-    VKM_SERVER(server)->gst_rtsp_server);
-VKM_ASSERT(factory != NULL, "failed to get server mount points")
+    factory_launch_string = g_strdup_printf(
+        "( appsrc name=%s ! rtph264pay name=pay0 pt=96 )",
+        application_id);
 
-gst_rtsp_mount_points_add_factory(mount_points, path, factory);
-g_object_unref(mount_points);
+    gst_rtsp_media_factory_set_launch(factory, factory_launch_string);
+    g_object_unref(factory_launch_string);
 
-VKM_END_FUNCTION
+    mount_points = gst_rtsp_server_get_mount_points(
+        VKM_SERVER(server)->gst_rtsp_server);
+    VKM_ASSERT(factory != NULL, "failed to get server mount points")
 
-VKM_BEGIN_FUNCTION(vkm_server_unmount(vkm_server server, const char *path))
+    gst_rtsp_mount_points_add_factory(mount_points, path, factory);
+    g_object_unref(mount_points);
 
-VKM_END_FUNCTION
+    VKM_END_FUNCTION
+}
+
+int(vkm_server_unmount(vkm_server server, const char *path))
+{
+    VKM_BEGIN_FUNCTION
+
+    VKM_END_FUNCTION
+}
 
 static void vkm_server_configure(
     GstRTSPMediaFactory *factory,
