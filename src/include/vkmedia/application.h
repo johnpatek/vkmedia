@@ -25,26 +25,41 @@
 
 #include "core.h"
 
+/** @struct vkm_application_parameters
+ *  Configuration used by the vkm_application
+ *  @var vkm_application_parameters::physical_device
+ *    Vulkan physical device
+ */
 typedef struct _vkm_application_parameters
 {
+    //! Vulkan physical device
     VkPhysicalDevice pysical_device;
     
+    //! width of the image in pixels
     uint32_t width;
 
+    //! height of the image in pixels
     uint32_t height;
 
+    //! frames per second numerator
     uint32_t fps_num;
 
+    //! frames per second denominator
     uint32_t fps_den;
 
+    //! number of images to be allocated
     uint32_t image_count;
 
+    //! number of device extenstions
     uint32_t device_extension_count;
 
+    //! names of device extenstions
     const char ** device_extensions;
 
+    //! number of queue families
     uint32_t queue_family_count;
 
+    //! indices of queue families
     uint32_t *queue_families;
 
 } vkm_application_parameters;

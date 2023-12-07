@@ -31,7 +31,7 @@ void vkm_example_create(
 
     vkm_example_create_instance(*example);
     vkm_example_create_devices(*example, example_parameters->device_index);
-    
+
     application_parameters.queue_families = &(*example)->vk_queue_index;
     assert(
         vkm_application_create(
@@ -56,6 +56,9 @@ void vkm_example_loop(vkm_example *example)
 
     VkSemaphore wait_semaphore;
     VkSemaphore signal_semaphore;
+
+    example->running = VK_TRUE;
+
     while (example->running == VK_TRUE)
     {
         vkm_application_acquire_image(
@@ -115,7 +118,7 @@ void vkm_example_create_instance(vkm_example *example)
 
     instance_create_info.enabledExtensionCount = instance_extension_count;
     instance_create_info.ppEnabledExtensionNames = instance_extensions;
-    assert(vkCreateInstance(&instance_create_info, NULL, &example->vk_instance)== VK_SUCCESS);
+    assert(vkCreateInstance(&instance_create_info, NULL, &example->vk_instance) == VK_SUCCESS);
 
     free(instance_extensions);
 }
@@ -178,10 +181,16 @@ void vkm_example_create_image_views(vkm_example *example)
 
 void vkm_example_create_shaders(vkm_example *example, const char *shader_directory)
 {
+    char filename[256];
+    sprintf(filename, "%s/%s", shader_directory, "vert.spv");
+    example->vk_vertex_shader = load_shader_module(example->vk_device, filename);
+    sprintf(filename, "%s/%s", shader_directory, "frag.spv");
+    example->vk_fragment_shader = load_shader_module(example->vk_device, filename);
 }
 
 void vkm_example_create_framebuffers(vkm_example *example)
 {
+    
 }
 
 void vkm_example_loop_record(vkm_example *example, VkFramebuffer framebuffer, VkCommandBuffer command_buffer)

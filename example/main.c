@@ -38,5 +38,6 @@ int main(int argc, char **argv)
 
         vkm_example_destroy(example);
     }
+    puts("goodbye");
     return 0;
 }
